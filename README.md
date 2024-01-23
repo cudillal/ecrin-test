@@ -1,2 +1,2 @@
 # ecrin-test
-ECRIN Technical test - ToDo list of users
+ECRIN Technical test - To-Do list of users
