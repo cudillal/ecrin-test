@@ -18,34 +18,14 @@
     </div>
     <div class="container">
         <div class="text-center">
-            <p>Welcome! Please login or register to manage your To-Do list:</p>
+            <h5>Welcome! Please login or register to manage your To-Do list:</h5>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center m-4">
             <div class="col-md-5">
                 <h2 class="text-center my-4">Login</h2>
-                <form>
-                    <!-- Username input -->
-                    <div class="form-outline mb-4">
-                    <input type="text" id="registerUsername" class="form-control" />
-                    <label class="form-label" for="registerUsername">Username</label>
-                    </div>
-            
-                    <!-- Password input -->
-                    <div class="form-outline mb-4">
-                    <input type="password" id="registerPassword" class="form-control" />
-                    <label class="form-label" for="registerPassword">Password</label>
-                    </div>
-            
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block mb-3">Sign In</button>
-                </form>
-            </div>
-            <div class="vr p-0 mx-5"></div>
-            <div class="col-md-5">
-                <h2 class="text-center my-4">Register</h2>
                 <form method="POST">
                     {% csrf_token %}
-                    {% for field in form %}
+                    {% for field in login_form %}
                     <div class="form-outline mb-4">
                         {% if field.errors %}
                         <ul class="errorlist">
@@ -59,8 +39,29 @@
                     </div>
                     {% endfor %}
             
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block mb-3">Sign Up</button>
+                    <button type="submit" name="{{login_form.prefix}}" class="btn btn-primary btn-block w-100">Sign In</button>
+                </form>
+            </div>
+            <div class="vr p-0 mx-5"></div>
+            <div class="col-md-5">
+                <h2 class="text-center my-4">Register</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for field in register_form %}
+                    <div class="form-outline mb-4">
+                        {% if field.errors %}
+                        <ul class="errorlist">
+                            {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {{ field }}
+                        <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+                    </div>
+                    {% endfor %}
+            
+                    <button type="submit" name="{{register_form.prefix}}" class="btn btn-primary btn-block w-100">Sign Up</button>
                 </form>
             </div>
         </div>
