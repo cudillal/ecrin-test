@@ -1,0 +1,16 @@
+{% for task in tasks %}
+<li class="py-3 shadow list-group-item " id="list_{{ task.id }}">
+    <div class="d-flex align-items-center">
+        <div class="p-2">
+            <input class="" type="checkbox" id="check_{{ task.id }}" onclick='done("{{ task.id }}")'>
+        </div>
+        <div class="me-auto p-2">
+            <span class=" h4" id="text_{{ task.id }}"> {{ task.title }} </span>
+        </div>
+        <div class="p-2">
+            <button class="btn btn-secondary" hx-get="{% url 'edit_task' task.id %}" hx-target="#dialog">Edit</button>
+            <button class="btn btn-danger" hx-get="{% url 'delete_task' task.id %}" hx-target="#dialog">Delete</button>
+        </div>
+    </div>
+</li>
+{% endfor %}
