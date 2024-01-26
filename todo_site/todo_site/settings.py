@@ -35,7 +35,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'account.apps.AccountConfig',
-    'todo.apps.TodoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'todo.apps.TodoConfig',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +139,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-# Alert messages
+# Alert messages tags to match bootstrap classes
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
     messages.INFO: 'alert-info',

@@ -1,3 +1,4 @@
+<!-- Task list to be loaded dynamically when the page loads and when a task id added/edited/deleted -->
 {% for task in tasks %}
 <li class="py-3 shadow list-group-item " id="list_{{ task.id }}">
     <div class="d-flex align-items-center">
@@ -5,6 +6,7 @@
             <span class=" h4" id="text_{{ task.id }}"> {{ task.title }} </span>
         </div>
         <div class="p-2">
+            <!-- Edit and delete buttons that load edit_task.html and delete_task.html modal forms respectively -->
             <button class="btn btn-secondary" hx-get="{% url 'edit_task' task.id %}" hx-target="#dialog">Edit</button>
             <button class="btn btn-danger" hx-get="{% url 'delete_task' task.id %}" hx-target="#dialog">Delete</button>
         </div>

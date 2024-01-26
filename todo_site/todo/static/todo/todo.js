@@ -1,4 +1,4 @@
-// Most of the code is from https://blog.benoitblanchon.fr/django-htmx-modal-form/
+/* Most of the code is from https://blog.benoitblanchon.fr/django-htmx-modal-form/ */
 
 
 const modal = new bootstrap.Modal(document.getElementById("taskModal"))
@@ -23,6 +23,7 @@ htmx.on("hidden.bs.modal", () => {
     document.getElementById("dialog").innerHTML = ""
 })
 
+// Show success alert message after adding, editing, or deleting a task
 htmx.on("showMessage", (e) => {
     document.getElementById("messageDiv").innerHTML = `
     <div class="d-flex justify-content-center">

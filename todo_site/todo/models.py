@@ -1,9 +1,11 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser, UserManager
 
 
 class Task(models.Model):
+    """
+    Task model - title and foreign key to User object
+    """
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
 

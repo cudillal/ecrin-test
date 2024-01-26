@@ -16,5 +16,5 @@ class RegisterForm(UserCreationForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(label="Repeat password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     class Meta:
-        model=User
+        model = User
         fields = ['username','email','password1','password2']

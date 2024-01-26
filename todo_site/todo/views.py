@@ -20,19 +20,25 @@ from .login_decorator import login_required_message
 
 class TaskViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows tasks to be viewed or edited.
+    REST API endpoint that allows the task list to be viewed or edited.
     """
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
     def get_queryset(self):
+        """
+        Allow an user to view their tasks only.
+        """
         current_user = self.request.user
         return Task.objects.filter(owner=current_user.id)
 
 
 @login_required
 def task_list(request):
+    """
+    Dynamically render the task list.
+    """
     return render(request, 'todo/task_list.html', {
         'tasks': Task.objects.filter(owner=request.user.id),
     })
@@ -41,6 +47,9 @@ def task_list(request):
 @login_required
 @never_cache
 def todo_list(request):
+    """
+    Handle main view rendering and logout request.
+    """
     if request.method == 'POST':
         logout(request)
         messages.info(request, 'Logged out successfully.')
@@ -48,6 +57,7 @@ def todo_list(request):
     else:
         template = loader.get_template("todo/todo_list.html")
         tasks = []
+        # Retrieve tasks if user has any
         try:
             tasks = Task.objects.filter(owner=request.user)
         except ObjectDoesNotExist:
@@ -61,6 +71,10 @@ def todo_list(request):
 
 @login_required
 def add_task(request):
+    """
+    Handle task addition.
+    Modal add form is dynamically loaded (GET), and a task can be added (POST).
+    """
     if request.method == "GET":
         form = TaskForm()
         return render(request, 'todo/add_task.html', {
@@ -72,6 +86,7 @@ def add_task(request):
             new_task = form.save(commit=False)
             new_task.owner = request.user
             new_task.save()
+            # Trigger dynamic task list update
             return HttpResponse(
                 status=204,
                 headers={
@@ -84,6 +99,10 @@ def add_task(request):
 
 @login_required
 def edit_task(request, task_id):
+    """
+    Handle task edition.
+    Modal edit form is dynamically loaded (GET), and a task can be edited (POST).
+    """
     task = get_object_or_404(Task, id=task_id)
     if request.method == 'GET':
         form = TaskForm(instance=task)
@@ -92,6 +111,7 @@ def edit_task(request, task_id):
         form = TaskForm(data=request.POST, instance=task)
         if form.is_bound and form.is_valid():
             form.save()
+        # Trigger dynamic task list update
         return HttpResponse(
             status=204,
             headers={
@@ -104,12 +124,17 @@ def edit_task(request, task_id):
 
 @login_required
 def delete_task(request, task_id):
+    """
+    Handle task deletion.
+    Modal delete form is dynamically loaded (GET), and a task can be deleted (POST).
+    """
     task = get_object_or_404(Task, id=task_id)
     if request.method == 'GET':
         form = TaskForm(instance=task)
         return render(request, "todo/delete_task.html", {'form': form})
     elif request.method == 'POST':
         task.delete()
+        # Trigger dynamic task list update
         return HttpResponse(
             status=204,
             headers={

@@ -1,4 +1,7 @@
-# Source: https://stackoverflow.com/questions/2723842/django-message-framework-and-login-required
+"""
+Python decorator to show an alert message after attempting to load a page where being logged in is required while not logged in.
+Source: https://stackoverflow.com/questions/2723842/django-message-framework-and-login-required
+"""
 
 from functools import wraps
 
