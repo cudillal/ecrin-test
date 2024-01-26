@@ -8,7 +8,7 @@ Install the required packages aforementioned. A `requirements.txt` file is provi
 
 ## Usage
 
-Run `python manage.py runserver` in the `todo_site` directory to start the server. Follow the server link that should appear in the terminal.
+Run `python manage.py runserver` in the `todo_site/` directory to start the server. Follow the server link that should appear in the terminal.
 
 Users can create an account, log in, log out, add new tasks, edit existing tasks, and delete their tasks.
 
