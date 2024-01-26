@@ -4,7 +4,7 @@
 - Django 5.0.1
 - Django REST framework 3.14.0
 ## Installation
-Install the required packages previously mentioned. A `requirements.txt` file is provided for convenience.
+Install the required packages aforementioned. A `requirements.txt` file is provided for convenience.
 
 ## Usage
 
