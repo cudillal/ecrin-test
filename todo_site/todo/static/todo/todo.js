@@ -22,14 +22,13 @@ htmx.on("htmx:beforeSwap", (e) => {
 htmx.on("hidden.bs.modal", () => {
     document.getElementById("dialog").innerHTML = ""
 })
-  
 
-function done(taskId) { 
-    let current = document.getElementById(`text_${taskId}`);
-    const classExit = current.classList.contains("text-decoration-line-through");
-    if (classExit == true) {
-        current.classList.remove("text-decoration-line-through");
-    } else {
-        current.classList.add("text-decoration-line-through");
-    }
-}
+htmx.on("showMessage", (e) => {
+    document.getElementById("messageDiv").innerHTML = `
+    <div class="d-flex justify-content-center">
+        <div class='alert alert-success alert-dismissible fade show w-50' role='alert'>
+            ${e.detail.value}
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    </div>`;
+})

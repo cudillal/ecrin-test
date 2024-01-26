@@ -46,15 +46,18 @@ def index(request):
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     log_in = True
+                    messages.success(request, 'Logged in successfully.')
                 else:
                     messages.error(request, 'The username and password combination is incorrect.')
+            else:
+                messages.error(request, 'The username and password combination is incorrect.')
         elif RegisterForm.prefix in request.POST:
             register_form = RegisterForm(data = request.POST)
             if register_form.is_bound and register_form.is_valid():
                 user = register_form.save(commit=False)
                 user.username = user.username.lower()
                 user.save()
-                messages.success(request, 'You have signed up successfully. You are now logged in.')
+                messages.success(request, 'Signed up successfully. You are now logged in.')
                 user = authenticate(username=register_form.cleaned_data['username'].lower(),
                                     password=register_form.cleaned_data['password1'],
                                     )

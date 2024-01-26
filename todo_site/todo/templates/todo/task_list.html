@@ -1,9 +1,6 @@
 {% for task in tasks %}
 <li class="py-3 shadow list-group-item " id="list_{{ task.id }}">
     <div class="d-flex align-items-center">
-        <div class="p-2">
-            <input class="" type="checkbox" id="check_{{ task.id }}" onclick='done("{{ task.id }}")'>
-        </div>
         <div class="me-auto p-2">
             <span class=" h4" id="text_{{ task.id }}"> {{ task.title }} </span>
         </div>

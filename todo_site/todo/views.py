@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
 from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -14,6 +15,7 @@ from .forms import TaskForm
 from .models import Task
 from .permissions import IsOwnerOrReadOnly
 from .serializers import TaskSerializer
+from .login_decorator import login_required_message
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -35,11 +37,13 @@ def task_list(request):
         'tasks': Task.objects.filter(owner=request.user.id),
     })
 
+@login_required_message
 @login_required
 @never_cache
 def todo_list(request):
     if request.method == 'POST':
         logout(request)
+        messages.info(request, 'Logged out successfully.')
         return redirect('/')
     else:
         template = loader.get_template("todo/todo_list.html")
@@ -73,7 +77,7 @@ def add_task(request):
                 headers={
                     'HX-Trigger': json.dumps({
                         "todoListChanged": None,
-                        "showMessage": "Task added."
+                        "showMessage": "Task added successfully."
                     })
                 }
             )
@@ -93,7 +97,7 @@ def edit_task(request, task_id):
             headers={
                 'HX-Trigger': json.dumps({
                     "todoListChanged": None,
-                    "showMessage": "Task updated."
+                    "showMessage": "Task edited successfully."
                 })
             }
         )
@@ -111,7 +115,7 @@ def delete_task(request, task_id):
             headers={
                 'HX-Trigger': json.dumps({
                     "todoListChanged": None,
-                    "showMessage": f"{task.title} deleted."
+                    "showMessage": f"Task '{task.title}' deleted successfully."
                 })
             }
         )

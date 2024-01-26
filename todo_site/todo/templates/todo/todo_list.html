@@ -11,6 +11,18 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
     </head>
     <body>
+        <div id="messageDiv">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="d-flex justify-content-center">
+                    <div class="alert {{ message.tags }} alert-dismissible fade show w-50" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
         <div class="container m-5 p-2 rounded mx-auto bg-light shadow">
             <div class="flex-row d-flex justify-content-end">
                 <h5 class="align-self-center mx-2 no-margin">{{ user.get_username }}</h5>
