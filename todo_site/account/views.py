@@ -3,8 +3,25 @@ from django.template import loader
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from rest_framework import permissions, viewsets
 
 from .forms import LoginForm, RegisterForm
+from .permissions import ReadOnly
+from .serializers import UserSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, ReadOnly]
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return User.objects.filter(id=current_user.id)
 
 
 def _stay_on_page(request, login_form, register_form):

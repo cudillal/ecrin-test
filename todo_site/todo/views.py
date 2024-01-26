@@ -8,14 +8,31 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from rest_framework import permissions, viewsets
 
 from .forms import TaskForm
 from .models import Task
+from .permissions import IsOwnerOrReadOnly
+from .serializers import TaskSerializer
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows tasks to be viewed or edited.
+    """
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return Task.objects.filter(owner=current_user.id)
+
 
 @login_required
 def task_list(request):
     return render(request, 'todo/task_list.html', {
-        'tasks': Task.objects.all(),
+        'tasks': Task.objects.filter(owner=request.user.id),
     })
 
 @login_required

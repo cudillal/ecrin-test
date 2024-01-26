@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 
 from . import views
 
+
 urlpatterns = [
     path("", views.todo_list, name="todo_main"),
     path("task_list", views.task_list, name="task_list"),

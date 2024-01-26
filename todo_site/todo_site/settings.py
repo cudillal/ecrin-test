@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login URL for redirection
 LOGIN_URL = '/'
+
+# REST API default permissions
+# Note: you cannot logout from the DRF browsable API in Django 5:
+# https://stackoverflow.com/questions/77686009/when-i-want-to-logout-in-drf-api-browsable-it-shows-http-error-405
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
