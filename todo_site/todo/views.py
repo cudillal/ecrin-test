@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from rest_framework import permissions, viewsets
 
-from .forms import TaskForm
+from .forms import TaskForm, DeleteForm
 from .models import Task
 from .permissions import IsOwnerOrReadOnly
 from .serializers import TaskSerializer
@@ -66,7 +66,7 @@ def todo_list(request):
                    'tasks': tasks,
                    'add_form': TaskForm(),
                    'edit_form': TaskForm(),
-                   'delete_form': TaskForm()}
+                   'delete_form': DeleteForm()}
         return HttpResponse(template.render(context, request))
 
 @login_required
@@ -130,7 +130,7 @@ def delete_task(request, task_id):
     """
     task = get_object_or_404(Task, id=task_id)
     if request.method == 'GET':
-        form = TaskForm(instance=task)
+        form = DeleteForm(instance=task)
         return render(request, "todo/delete_task.html", {'form': form})
     elif request.method == 'POST':
         task.delete()

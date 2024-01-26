@@ -9,3 +9,10 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['title']
+
+class DeleteForm(forms.ModelForm):
+    title = forms.CharField(max_length=80, widget=forms.TextInput(attrs={'class': 'form-control'}), disabled=True)
+
+    class Meta:
+        model = Task
+        fields = ['title']
